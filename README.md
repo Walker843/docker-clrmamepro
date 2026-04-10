@@ -22,7 +22,7 @@ docker run -d \
   -v /path/to/config/datfiles:/opt/clrmamepro/datfiles \
   -v /path/to/config/settings:/opt/clrmamepro/settings \
   -v /path/to/roms:/opt/clrmamepro/roms \
-  ghcr.io/YOUR_GITHUB_USERNAME/docker-clrmamepro:latest
+  ghcr.io/Walker843/docker-clrmamepro:latest
 ```
 
 Then browse to `http://your-host-ip:5800` to access the GUI.
