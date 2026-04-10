@@ -1,45 +1,55 @@
-FROM jlesage/baseimage-gui:ubuntu-18.04
+# Modernized CLRMamePro Docker container
+# Based on jlesage/baseimage-gui v4 (Ubuntu 24.04)
+# Wine is used to run the Windows binary on Linux
 
-RUN set -x && \
+FROM jlesage/baseimage-gui:ubuntu-24.04-v4
+
+# Enable 32-bit architecture support and install Wine + dependencies
+RUN dpkg --add-architecture i386 && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
         ca-certificates \
         curl \
         p7zip-full \
-        p7zip-rar \
         unzip \
+        wine \
+        wine32 \
         wine64 \
         zip \
-        && \
-    # Find latest clrmamepro
+    && \
+    # Find and install the latest CLRMamePro binary
     CMP_LATEST_BINARY=$( \
-        curl https://mamedev.emulab.it/clrmamepro/ | \
-        sed -n 's/.*href="\([^"]*\).*/\1/p' | \
+        curl -fsSL https://mamedev.emulab.it/clrmamepro/ | \
+        sed -n 's/.*href="\([^"]*\)".*/\1/p' | \
         grep -i binaries | \
         grep -i cmp | \
         grep -i _64.zip | \
         sort -r | \
         head -1 \
-        ) && \
+    ) && \
+    echo "Installing CLRMamePro: $CMP_LATEST_BINARY" && \
     # Document version
-    echo $(basename --suffix=.zip $CMP_LATEST_BINARY | cut -d "_" -f 1) >> /VERSIONS && \
-    # Install clrmamepro
+    echo "$(basename --suffix=.zip "$CMP_LATEST_BINARY" | cut -d '_' -f 1)" > /VERSIONS && \
+    cat /VERSIONS && \
+    # Install CLRMamePro
     mkdir -p /opt/clrmamepro && \
-    curl -o /tmp/cmp.zip "https://mamedev.emulab.it/clrmamepro/$CMP_LATEST_BINARY" && \
+    curl -fsSL -o /tmp/cmp.zip "https://mamedev.emulab.it/clrmamepro/$CMP_LATEST_BINARY" && \
     unzip /tmp/cmp.zip -d /opt/clrmamepro/ && \
-    # Allow window decorations
-    sed -i '/<decor>no<\/decor>/d' /etc/xdg/openbox/rc.xml && \
+    # Set correct permissions
+    chmod -R 755 /opt/clrmamepro && \
     # Clean up
-    apt-get remove -y \
-        ca-certificates \
-        curl \
-        && \
+    apt-get remove -y ca-certificates curl && \
     apt-get autoremove -y && \
     apt-get clean -y && \
     rm -rf /var/lib/apt/lists/* /tmp/*
 
+# Copy startup script and app config
 COPY startapp.sh /startapp.sh
-COPY etc/ /etc/
-COPY run_native_applications.reg /run_native_applications.reg
+RUN chmod +x /startapp.sh
 
-ENV APP_NAME="Clrmamepro"
+# Set application name (v4 baseimage API)
+RUN set-cont-env APP_NAME "CLRMamePro"
+
+# Optional: set a default window size
+RUN set-cont-env DISPLAY_WIDTH 1280
+RUN set-cont-env DISPLAY_HEIGHT 768
