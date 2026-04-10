@@ -1,6 +1,6 @@
 services:
   clrmamepro:
-    image: ghcr.io/YOUR_GITHUB_USERNAME/docker-clrmamepro:latest
+    image: ghcr.io/Walker843/docker-clrmamepro:latest
     container_name: clrmamepro
     restart: unless-stopped
     ports:
