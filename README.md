@@ -1,5 +1,8 @@
 # docker-clrmamepro
 
+****NOTE****
+The updates to the original docker-clrmamepro were assisted with AI. This fork is to help me learn github and how to code. This is not intended for general use by anyone.
+
 Docker container for [CLRMamePro](https://mamedev.emulab.it/clrmamepro/) — the ROM management and organization tool for Windows, running on Linux via Wine.
 
 This is a modernized fork of [mikenye/docker-clrmamepro](https://github.com/mikenye/docker-clrmamepro), updated to:
