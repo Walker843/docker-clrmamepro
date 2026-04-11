@@ -1,9 +1,11 @@
 #!/bin/sh
 # startapp.sh - Launches CLRMamePro under Wine
-# This script is called by the jlesage baseimage-gui startup system
+
+export WINEPREFIX=/config/wine
+export WINEDEBUG=-all
 
 # Initialize Wine prefix on first run
-if [ ! -d "$HOME/.wine" ]; then
+if [ ! -d "$WINEPREFIX" ]; then
     echo "Initializing Wine prefix..."
     wineboot --init
 fi
