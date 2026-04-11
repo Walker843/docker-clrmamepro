@@ -17,7 +17,6 @@ RUN dpkg --add-architecture i386 && \
         wine64 \
         zip \
     && \
-    # Find and install the latest CLRMamePro binary
 # Find and install the latest CLRMamePro binary
     CMP_LATEST_BINARY=$( \
         curl -fsSL https://mamedev.emulab.it/clrmamepro/ | \
