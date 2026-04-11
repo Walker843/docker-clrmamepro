@@ -17,7 +17,7 @@ RUN dpkg --add-architecture i386 && \
         wine64 \
         zip \
     && \
-# Find and install the latest CLRMamePro binary
+    # Find and install the latest CLRMamePro binary
     CMP_LATEST_BINARY=$( \
         curl -fsSL https://mamedev.emulab.it/clrmamepro/ | \
         sed -n 's/.*href="\([^"]*binaries\/cmp[^"]*_64\.zip\)".*/\1/p' | \
@@ -32,7 +32,7 @@ RUN dpkg --add-architecture i386 && \
     curl -fsSL -o /tmp/cmp.zip "https://mamedev.emulab.it/clrmamepro/$CMP_LATEST_BINARY" && \
     unzip /tmp/cmp.zip -d /opt/clrmamepro/ && \
     # Allow window decorations if openbox config exists
-    [ -f /etc/xdg/openbox/rc.xml ] && sed -i '/<decor>no<\/decor>/d' /etc/xdg/openbox/rc.xml || true && \
+    { [ -f /etc/xdg/openbox/rc.xml ] && sed -i '/<decor>no<\/decor>/d' /etc/xdg/openbox/rc.xml || true; } && \
     # Set correct permissions
     chmod -R 755 /opt/clrmamepro && \
     # Clean up
