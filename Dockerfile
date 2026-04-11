@@ -18,13 +18,10 @@ RUN dpkg --add-architecture i386 && \
         zip \
     && \
     # Find and install the latest CLRMamePro binary
+# Find and install the latest CLRMamePro binary
     CMP_LATEST_BINARY=$( \
         curl -fsSL https://mamedev.emulab.it/clrmamepro/ | \
-        sed -n 's/.*href="\([^"]*\)".*/\1/p' | \
-        grep -i binaries | \
-        grep -i cmp | \
-        grep -i _64.zip | \
-        sort -r | \
+        sed -n 's/.*href="\([^"]*binaries\/cmp[^"]*_64\.zip\)".*/\1/p' | \
         head -1 \
     ) && \
     echo "Installing CLRMamePro: $CMP_LATEST_BINARY" && \
