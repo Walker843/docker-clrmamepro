@@ -1,11 +1,14 @@
 #!/bin/sh
-# startapp.sh - Launches CLRMamePro under Wine
-
 export WINEPREFIX=/config/wine
 export WINEDEBUG=-all
 
-# Fix ownership of CLRMamePro directories to match the app user
-chown -R app:app /opt/clrmamepro/
+# Fix ownership of CLRMamePro app files only
+chown app:app /opt/clrmamepro/*.exe
+chown app:app /opt/clrmamepro/*.dll
+chown app:app /opt/clrmamepro/*.ini
+chown app:app /opt/clrmamepro/*.cfg
+chown app:app /opt/clrmamepro/*.xml
+chown app:app /opt/clrmamepro/*.txt
 
 # Initialize Wine prefix on first run
 if [ ! -d "$WINEPREFIX" ]; then
@@ -13,5 +16,4 @@ if [ ! -d "$WINEPREFIX" ]; then
     wineboot --init
 fi
 
-# Launch CLRMamePro
 exec wine /opt/clrmamepro/cmpro64.exe
