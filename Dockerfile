@@ -31,6 +31,8 @@ RUN dpkg --add-architecture i386 && \
     mkdir -p /opt/clrmamepro && \
     curl -fsSL -o /tmp/cmp.zip "https://mamedev.emulab.it/clrmamepro/$CMP_LATEST_BINARY" && \
     unzip /tmp/cmp.zip -d /opt/clrmamepro/ && \
+    # Allow window decorations (title bar, resize handles)
+    sed -i '/<decor>no<\/decor>/d' /etc/xdg/openbox/rc.xml && \
     # Set correct permissions
     chmod -R 755 /opt/clrmamepro && \
     # Clean up
