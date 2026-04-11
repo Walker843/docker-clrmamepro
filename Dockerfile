@@ -33,7 +33,7 @@ RUN dpkg --add-architecture i386 && \
     curl -fsSL -o /tmp/cmp.zip "https://mamedev.emulab.it/clrmamepro/$CMP_LATEST_BINARY" && \
     unzip /tmp/cmp.zip -d /opt/clrmamepro/ && \
     # Set correct permissions
-    chmod -R 755 /opt/clrmamepro && \
+    chmod -R 777 /opt/clrmamepro && \
     # Clean up
     apt-get remove -y ca-certificates curl && \
     apt-get autoremove -y && \
