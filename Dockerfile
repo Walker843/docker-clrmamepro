@@ -33,7 +33,8 @@ RUN dpkg --add-architecture i386 && \
     unzip /tmp/cmp.zip -d /opt/clrmamepro/ && \
     # Allow window decorations if openbox config exists
     { [ -f /etc/xdg/openbox/rc.xml ] && sed -i '/<decor>no<\/decor>/d' /etc/xdg/openbox/rc.xml || true; } && \
-    # Set correct permissions
+    # Set correct ownership and permissions
+    chown -R app:app /opt/clrmamepro && \
     chmod -R 755 /opt/clrmamepro && \
     # Clean up
     apt-get remove -y ca-certificates curl && \
